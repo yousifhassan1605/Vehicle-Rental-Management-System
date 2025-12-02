@@ -26,6 +26,7 @@ It also includes text-file persistence and full Arabic language support.
 - `String model`  
 - `double pricePerDay`  
 - `boolean available`  
+- `Queue<String> serviceDates`  
 
 **Methods:**  
 
@@ -35,6 +36,7 @@ It also includes text-file persistence and full Arabic language support.
   - `String getModel()`  
   - `double getPricePerDay()`  
   - `boolean isAvailable()`  
+  - `Queue<String> getServiceDates()`  
 - **Setters:**  
   - `void setModel(String model)`  
   - `void setPricePerDay(double pricePerDay)`  
@@ -42,6 +44,9 @@ It also includes text-file persistence and full Arabic language support.
 - **Utility:**  
   - `void markAsRented()`  
   - `void markAsReturned()`  
+  - `void addServiceDate(String date)`  
+  - `String completeNextService()`  
+  - `String getNextServiceDate()`  
   - `String toString()`  
 
 ---
@@ -51,7 +56,9 @@ It also includes text-file persistence and full Arabic language support.
 **Attributes:**  
 
 - `int seats`  
-- `String type`
+- `String type`  
+- `ArrayList<String> accidentHistory`  
+- `int numberOfAccidents`  
 
 **Methods:**  
 
@@ -62,7 +69,10 @@ It also includes text-file persistence and full Arabic language support.
   - `void setSeats(int seats)`  
   - `String getType()`  
   - `void setType(String type)`  
+  - `ArrayList<String> getAccidentHistory()`  
+  - `int getNumberOfAccidents()`  
 - **Utility:**  
+  - `void addAccidents(String accidentDetails)`  
   - `String toString()`  
 
 ---
@@ -131,7 +141,7 @@ The system will support the following menu options:
 
 - `ArrayList` – storing vehicles and customers  
 - `HashMap` – mapping customer IDs or rental records  
-- `Queue` – handling pending rentals (if included)
+- `Queue` – handling service dates for vehicles  
 
 ---
 
