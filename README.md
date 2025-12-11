@@ -1,165 +1,198 @@
 # Vehicle Rental Management System  
 
-**Authors:**  
+**Authors:** Abdullah Syed (F2400163) • Yousif Mahfoudhi (F2400002) • Kishan Biju (F2400101)
 
-- Abdullah Syed (F2400163)  
-- Yousif Mahfoudhi (F2400002)  
-- Kishan Biju (F2400101)
+## 📌 Introduction  
 
-## 📌 Project Overview  
-
-The **Vehicle Rental Management System** is a Java-based application designed to manage vehicles, customers, and rental operations for a vehicle rental business.  
-The system supports adding, editing, deleting, searching, and generating reports for vehicles and customers.  
-It also includes text-file persistence and full Arabic language support.
+A comprehensive Java-based Vehicle Rental Management System designed to streamline vehicle inventory, customer records, and rental transactions. Core features include complete CRUD operations for vehicles and customers, transaction processing, analytics reporting, and persistent data storage with full Arabic language support. Implements fundamental OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction) alongside efficient data structures (ArrayList, HashMap, Queue).
 
 ---
 
-## 🚗 Main Components
+## 👥 Team Plan
 
-### **1. Classes Overview**
-
-#### **Vehicle (Parent Class)**  
-
-**Attributes:**  
-
-- `int id`  
-- `String model`  
-- `double pricePerDay`  
-- `boolean available`  
-- `Queue<String> serviceDates`  
-
-**Methods:**  
-
-- **Constructor:** `Vehicle(int id, String model, double pricePerDay)`
-- **Getters:**  
-  - `int getId()`  
-  - `String getModel()`  
-  - `double getPricePerDay()`  
-  - `boolean isAvailable()`  
-  - `Queue<String> getServiceDates()`  
-- **Setters:**  
-  - `void setModel(String model)`  
-  - `void setPricePerDay(double pricePerDay)`  
-  - `void setAvailable(boolean available)`  
-- **Utility:**  
-  - `void markAsRented()`  
-  - `void markAsReturned()`  
-  - `void addServiceDate(String date)`  
-  - `String completeNextService()`  
-  - `String getNextServiceDate()`  
-  - `String toString()`  
+- **Week 1:** Requirements analysis, architecture design, UML modeling, workflow specification
+- **Week 2:** Core implementation, file I/O integration, menu system development  
+- **Week 3:** Quality assurance, debugging, documentation finalization
 
 ---
 
-#### **Car (Child Class of Vehicle)**  
+## 📋 Project Requirements
 
-**Attributes:**  
+**Objective:** Comprehensive vehicle and customer management platform for rental businesses featuring advanced search, real-time tracking, and analytics capabilities.
 
-- `int seats`  
-- `String type`  
-- `ArrayList<String> accidentHistory`  
-- `int numberOfAccidents`  
+**Key Operations:**
 
-**Methods:**  
-
-- **Constructor:**  
-  `Car(int id, String model, double pricePerDay, int seats, String type)`  
-- **Getters/Setters:**  
-  - `int getSeats()`  
-  - `void setSeats(int seats)`  
-  - `String getType()`  
-  - `void setType(String type)`  
-  - `ArrayList<String> getAccidentHistory()`  
-  - `int getNumberOfAccidents()`  
-- **Utility:**  
-  - `void addAccidents(String accidentDetails)`  
-  - `String toString()`  
+- **Vehicles:** Create, update, delete, display inventory, search by ID, filter by availability status
+- **Customers:** Manage customer profiles, update records, search customer database
+- **Rentals:** Process vehicle checkout/return, monitor active rentals, review transaction history
+- **Reports:** Generate business intelligence reports with interactive help system
 
 ---
 
-#### **Bike (Child Class of Vehicle)**  
+## 🚗 UML Class Diagram
 
-**Attributes:**  
-
-- `boolean electric`  
-- `int gearCount`
-
-**Methods:**  
-
-- **Constructor:**  
-  `Bike(int id, String model, double pricePerDay, boolean electric, int gearCount)`  
-- **Getters/Setters:**  
-  - `boolean isElectric()`  
-  - `void setElectric(boolean electric)`  
-  - `int getGearCount()`  
-  - `void setGearCount(int gearCount)`  
-- **Utility:**  
-  - `String toString()`  
+```mermaid
+classDiagram
+    Vehicle <|-- Car
+    Vehicle <|-- Bike
+    Customer --> Vehicle : rentedVehicle
+    
+    class Vehicle {
+        -int id
+        -String model
+        -double pricePerDay
+        -boolean available
+        -Queue~String~ serviceDates
+        +Vehicle(int, String, double)
+        +getId() int
+        +setId(int) void
+        +getModel() String
+        +setModel(String) void
+        +getPricePerDay() double
+        +setPricePerDay(double) void
+        +isAvailable() boolean
+        +setAvailable(boolean) void
+        +getServiceDates() Queue~String~
+        +markAsRented() void
+        +markAsReturned() void
+        +addServiceDate(String) void
+        +completeNextService() String
+        +getNextServiceDate() String
+        +toString() String
+    }
+    
+    class Car {
+        -int seats
+        -String type
+        -ArrayList~String~ accidentHistory
+        -int numberOfAccidents
+        +Car(int, String, double, int, String)
+        +getSeats() int
+        +setSeats(int) void
+        +getType() String
+        +setType(String) void
+        +getAccidentHistory() ArrayList~String~
+        +getNumberOfAccidents() int
+        +addAccidents(String) void
+        +toString() String
+    }
+    
+    class Bike {
+        -boolean electric
+        -int gearCount
+        -double batteryCapacity
+        -ArrayList~String~ accidentHistory
+        -int numberOfAccidents
+        +Bike(int, String, double, boolean, int, double)
+        +isElectric() boolean
+        +setElectric(boolean) void
+        +getGearCount() int
+        +setGearCount(int) void
+        +getBatteryCapacity() double
+        +setBatteryCapacity(double) void
+        +getNumberOfAccidents() int
+        +getAccidentHistory() ArrayList~String~
+        +addAccident(String) void
+        +toString() String
+    }
+    
+    class Customer {
+        -int id
+        -String name
+        -String phone
+        -Vehicle rentedVehicle
+        +Customer(int, String, String, Vehicle)
+        +getId() int
+        +getName() String
+        +setName(String) void
+        +getPhone() String
+        +setPhone(String) void
+        +getRentedVehicle() Vehicle
+        +getCurrentVehicle() Vehicle
+        +setRentedVehicle(Vehicle) void
+        +toString() String
+    }
+    
+    class Main {
+        -String VEHICLES_FILE
+        -String CUSTOMERS_FILE
+        -String RENTALS_FILE
+        -List~Vehicle~ vehicles
+        -List~Customer~ customers
+        -List~String~ rentals
+        -Map~Integer,Vehicle~ vehicleMap
+        -Map~Integer,Customer~ customerMap
+        +main(String[]) void
+        +manageVehicles(Scanner) void
+        +addVehicle(Scanner) void
+        +editVehicle(Scanner) void
+        +deleteVehicle(Scanner) void
+        +displayVehicles() void
+        +manageCustomers(Scanner) void
+        +addCustomer(Scanner) void
+        +editCustomer(Scanner) void
+        +deleteCustomer(Scanner) void
+        +displayCustomers() void
+        +rentalOperations(Scanner) void
+        +rentVehicle(Scanner) void
+        +returnVehicle(Scanner) void
+        +displayRentals() void
+        +generateReports(Scanner) void
+        +displayAvailableVehicles() void
+        +displayRentedVehicles() void
+        +showHelp() void
+        +ensureFilesExist() void
+        +loadVehicles() void
+        +loadCustomers() void
+        +loadRentals() void
+        +saveData() void
+        +saveRentals() void
+        +searchData(Scanner) void
+        +searchVehicle(Scanner) void
+        +searchCustomer(Scanner) void
+    }
+    
+    Main --> Vehicle : manages
+    Main --> Customer : manages
+```
 
 ---
 
-#### **Customer**  
+## 🏗️ System Architecture
 
-**Attributes:**  
+**Class Hierarchy:**
 
-- `int id`  
-- `String name`  
-- `String phone`  
-- `Vehicle rentedVehicle`
+- **Vehicle** (Abstract Base) → **Car** & **Bike** (Concrete Implementations)
+- **Customer** - Encapsulates customer information and rental associations
+- **Main** - Application controller orchestrating UI, business logic, and data persistence
 
-**Methods:**  
-
-- **Constructor:**  
-  `Customer(int id, String name, String phone, Vehicle rentedVehicle)`  
-- **Getters/Setters:**  
-  - `int getId()`  
-  - `String getName()`  
-  - `void setName(String name)`  
-  - `String getPhone()`  
-  - `void setPhone(String phone)`  
-  - `Vehicle getRentedVehicle()`  
-  - `void setRentedVehicle(Vehicle rentedVehicle)`  
-- **Utility:**  
-  - `String toString()`  
+**Data Structures:** ArrayList (collections), HashMap (fast lookups), Queue (service scheduling)  
+**Persistence Layer:** Text-based storage with UTF-8 encoding for multilingual support
 
 ---
 
-## 🧰 User Operations  
+## 📊 Flowchart
 
-The system will support the following menu options:  
+![System Flowchart 1](diagrams/image1.png)
 
-- **Help**  
-- **Data Management**  
-- **Search**  
-- **Reports**  
-- **Rental Operations**  
-- **Quit**
+![System Flowchart 2](diagrams/image2.png)
+
+![System Flowchart 3](diagrams/image3.png)
 
 ---
 
-## 🗂 Data Structures Used  
+## 🔧 Implementation
 
-- `ArrayList` – storing vehicles and customers  
-- `HashMap` – mapping customer IDs or rental records  
-- `Queue` – handling service dates for vehicles  
+Employs object-oriented architecture leveraging inheritance (Vehicle → Car/Bike), encapsulation, and polymorphism. The Main controller orchestrates menu-driven operations, data persistence, and implements HashMap-based indexing for O(1) lookup performance. Features bilingual interface (English/Arabic) for enhanced accessibility.
 
 ---
 
-## 📝 Text I/O & Arabic Language Support  
+## 🧪 Testing
 
-The system will:  
-
-- Read and write **all data** (vehicles, customers, rentals) using text files
-- Fully support **Arabic input/output** in the console  
-- Display **menus and messages in Arabic**  
-- Save Arabic characters correctly using UTF-8 encoding  
+![Testing Screenshot](diagrams/image4.png)
 
 ---
 
-## 📄 File Persistence  
+## 🎯 Conclusion
 
-All program data will be stored in text files so the system can:  
-
-- Load data at startup  
-- Save changes immediately  
-- Preserve both English and Arabic text without corruption
+Successfully demonstrates advanced OOP principles through a production-ready vehicle/customer management solution featuring transaction processing, analytics generation, and robust data persistence. Leverages core design patterns including inheritance, polymorphism, and efficient data structures (ArrayList, Queue, HashMap) within an intuitive console interface. Architected for extensibility with clear pathways for enhancements: payment gateway integration, GUI development, and database migration.
